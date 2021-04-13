@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -23,6 +24,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message="Veuillez renseignez un email valide !")
      */
     private $email;
 
@@ -39,16 +41,29 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $username;
 
     /**
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Votre prénom doit avoir au moins {{ limit }} caractères",
+     *      maxMessage = "Votre prénom ne peut pas avoir plus de {{ limit }} caractères"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Votre nom doit avoir au moins {{ limit }} caractères",
+     *      maxMessage = "Votre nom ne peut pas avoir plus de {{ limit }} caractères"
+     * )
      */
     private $lastname;
 
@@ -58,7 +73,8 @@ class User implements UserInterface
     private $createdAt;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",nullable=false)
+     * 
      */
     private $isVerified = false;
 
