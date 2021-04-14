@@ -13,7 +13,7 @@
 					<div class="login_wrap">
 						<div class="padding_eight_all bg-white">
 							<div class="heading_s1">
-								<h3>Login</h3>
+								<h3>Identifiez-vous</h3>
 							</div>
 							<form method="post">
 								{% if app.user %}
@@ -30,11 +30,11 @@
 								</div>
 								<div class="form-group">
 									<label for="inputEmail">Email</label>
-									<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+									<input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder="votre email" class="form-control" required autofocus>
 								</div>
 								<div class="form-group">
 									<label for="inputPassword">Mot de passe</label>
-									<input type="password" name="password" id="inputPassword" class="form-control" required>
+									<input type="password" name="password" id="inputPassword" placeholder="votre mot de passe" class="form-control" required>
 								</div>
 								<div class="login_footer form-group">
 									<div class="chek-form">
@@ -47,7 +47,7 @@
 											</label>
 										</div>
 									</div>
-									<a href="#">Mot de passe oublié ?</a>
+									<a href="{{path('app_forgot_password_request')}}">Mot de passe oublié ?</a>
 								</div>
 								<div class="form-group">
 									<button type="submit" class="btn btn-fill-out btn-block" name="login">Connexion</button>
