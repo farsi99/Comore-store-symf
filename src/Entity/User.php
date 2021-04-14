@@ -86,9 +86,15 @@ class User implements UserInterface
      */
     private $addresses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ReviewsProduct::class, mappedBy="user")
+     */
+    private $reviewsProducts;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
+        $this->reviewsProducts = new ArrayCollection();
     }
 
     public function getNameComplet()
@@ -267,6 +273,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($address->getUser() === $this) {
                 $address->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ReviewsProduct[]
+     */
+    public function getReviewsProducts(): Collection
+    {
+        return $this->reviewsProducts;
+    }
+
+    public function addReviewsProduct(ReviewsProduct $reviewsProduct): self
+    {
+        if (!$this->reviewsProducts->contains($reviewsProduct)) {
+            $this->reviewsProducts[] = $reviewsProduct;
+            $reviewsProduct->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReviewsProduct(ReviewsProduct $reviewsProduct): self
+    {
+        if ($this->reviewsProducts->removeElement($reviewsProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($reviewsProduct->getUser() === $this) {
+                $reviewsProduct->setUser(null);
             }
         }
 
