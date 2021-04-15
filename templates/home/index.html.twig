@@ -5,4 +5,65 @@
 
 {% block body %}
 	{{  include ("partials/title_section.html.twig", {'name':'Accueil'}) }}
+	<div class="section small_pt pb_70">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="tab-style1">
+						<ul class="nav nav-tabs justify-content-center" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" id="arrival-tab" data-toggle="tab" href="#arrival" role="tab" aria-controls="arrival" aria-selected="true">Nouvelle arrivées</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="sellers-tab" data-toggle="tab" href="#sellers" role="tab" aria-controls="sellers" aria-selected="false">Meilleures ventes</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="phare-tab" data-toggle="tab" href="#phare" role="tab" aria-controls="sellers" aria-selected="false">Produits phares</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="offer-tab" data-toggle="tab" href="#offer" role="tab" aria-controls="sellers" aria-selected="false">Meilleures démarques</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="tab-content">
+						<div class="tab-pane fade show active" id="arrival" role="tabpanel" aria-labelledby="arrival-tab">
+							<div class="row shop_container">
+								{% for product in productisNewArrival %}
+									{{  include ("partials/products.html.twig", {'product':product}) }}
+								{% endfor %}
+							</div>
+						</div>
+						<div class="tab-pane fade" id="sellers" role="tabpanel" aria-labelledby="sellers-tab">
+							<div class="row shop_container">
+								{% for product in productbestSaller %}
+									{{  include ("partials/products.html.twig", {'product':product}) }}
+								{% endfor %}
+
+							</div>
+						</div>
+						<div class="tab-pane fade" id="phare" role="tabpanel" aria-labelledby="phare-tab">
+							<div class="row shop_container">
+								{% for product in productIsFeatured %}
+									{{  include ("partials/products.html.twig", {'product':product}) }}
+								{% endfor %}
+
+							</div>
+						</div>
+						<div class="tab-pane fade" id="offer" role="tabpanel" aria-labelledby="offer-tab">
+							<div class="row shop_container">
+								{% for product in productisSepecialOffer %}
+									{{  include ("partials/products.html.twig", {'product':product}) }}
+								{% endfor %}
+
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 {% endblock %}
