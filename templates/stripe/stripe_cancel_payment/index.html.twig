@@ -1,20 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StripeCancelPaymentController!{% endblock %}
+{% block title %}Payement annulé ou refusé!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	{{  include ("partials/title_section.html.twig", {'name':'Payement annulé ou refusé'}) }}
+	<div class="section checkout">
+		<div class="container">
+			<div class="row justify-content-center">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+				<div class="col-md-8">
+					<div class="text-center order_complete">
+						<i class="fas fa-ban"></i>
+						<div class="heading_s1">
+							<h3>Désolé
+								{{order.user.firstname}}
+								{{order.user.lastname}}.
+							</h3>
+							<div>
+								<div>Votre paiement a été annulé! dont la reference
+									<strong>{{order.reference}}</strong>
+									n'a pas abouti.</div>
+								<div>Vous avez essayé de payer votre commande et nous vous en remercions.
+																		
+																		Votre paiement n'a pas été accepté. Votre commande n'a pas été confirmée.
+																		Nous vous invitons à vous connecter à notre site pour renouveler votre commande.
+																		
+																		A bientôt sur notre boutique en ligne.</div>
+								<div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp/www/Comores-store/src/Controller/Stripe/StripeCancelPaymentController.php'|file_link(0) }}">src/Controller/Stripe/StripeCancelPaymentController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp/www/Comores-store/templates/stripe/stripe_cancel_payment/index.html.twig'|file_link(0) }}">templates/stripe/stripe_cancel_payment/index.html.twig</a></code></li>
-    </ul>
-</div>
+									<a href="{{path('checkout_confirm')}}" class="btn btn-fill-out">Retourner sur ma commande</a>
+								</div>
+							</div>
+
+							<div></div>
+						</div>
+
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 {% endblock %}

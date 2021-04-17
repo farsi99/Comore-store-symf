@@ -54,6 +54,8 @@ class OrderService
             $this->manager->persist($orderDetail);
         }
         $this->manager->flush();
+
+        return $order->getId();
     }
 
 
