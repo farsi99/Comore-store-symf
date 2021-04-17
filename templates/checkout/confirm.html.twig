@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de ma commande
+{% endblock %}
+
+{% block scriptStripe %}
+	<script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
+{% block body %}
+	{{  include ("partials/title_section.html.twig", {'name':'Ma commande'}) }}
+	<div class="section">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="heading_s1">
+						<h4>Mon adresse de livraison</h4>
+						<div class="content">
+							{{ address | replace({"[spr]": "<br>"}) | raw }}
+						</div>
+						<a href="{{path('address_edit',{'id': address.id })}}" class="btn btn-fill-out mt-1">Modifier l'adresse</a>
+						<a href="{{path('checkout_edit')}}" class="btn btn-fill-out mt-1">Changer  l'adresse de livraison</a>
+					</div>
+					<div class="heading_s1">
+						<h4>Le transporteur</h4>
+						<div class="content">
+							{{ carrier  | replace({"[spr]": "<br>"}) | raw }}
+						</div>
+						<a href="{{path('checkout_edit')}}" class="btn btn-fill-out mt-1">Changer de livreur
+						</a>
+
+					</div>
+					{% if informations  %}
+						<div class="heading_s1">
+							<h4>Ajout d'autres détails sur la livraison</h4>
+							<div class="form-group mb-0">
+								{{ informations}}
+							</div>
+						</div>
+					{% endif %}
+				</div>
+
+				<div class="col-md-6">
+					<div class="order_review">
+						<div class="heading_s1">
+							<h4>Ma commande</h4>
+						</div>
+						<div class="table-responsive order_table">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Produit</th>
+										<th>Total</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for element in cart.products %}
+										<tr>
+											<td>
+												{{ element.product.name }}
+												<span class="product-qty">x
+													{{ element.quantity }}</span>
+											</td>
+											<td>{{ element.product.price / 100 }}
+												€</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<th>Sous-total HT</th>
+										<td class="product-subtotal">{{  cart.data.subtotalht }}
+											€</td>
+									</tr>
+									<tr>
+										<th>TVA (20%)</th>
+										<td class="product-subtotal">{{  cart.data.taxe }}
+											€</td>
+									</tr>
+									<tr>
+										<th>Frais de ivraison ({{ carrier.name}})
+										</th>
+										<td class="product-subtotal">{{  carrier.price / 100 }}
+											€</td>
+									</tr>
+									<tr>
+										<th>Total</th>
+										<td class="product-subtotal">{{  cart.data.subtotalttc + carrier.price / 100 }}
+											€</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+						<div class="payment_method">
+							<div class=""></div>
+
+							<button type="submit" id="checkout-button" class="btn btn-fill-out btn-block">Payer |
+								{{  cart.data.subtotalttc + carrier.price / 100}}
+								€</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript">
+		var stripe = Stripe("pk_test_51IgtB2I4bxab2PEw9ontEt6v9jLfsba9GVvwVanxQM8UPKLCAzo6bOfGuEa5ssinwvXG7ZaNQQgrxnrnW2aDcrM700zf1rvGZi");
+
+var checkoutButton = document.getElementById("checkout-button");
+
+checkoutButton.addEventListener("click", function () {
+
+fetch("/create-checkout-session/{{reference}}", {method: "POST"}).then(function (response) {
+
+return response.json();
+
+}).then(function (session) {
+
+return stripe.redirectToCheckout({sessionId: session.id});
+
+}).then(function (result) {
+
+// If redirectToCheckout fails due to a browser or network
+
+// error, you should display the localized error message to your
+
+// customer using error.message.
+
+if (result.error) {
+
+alert(result.error.message);
+
+}
+
+}).catch(function (error) {
+
+console.error("Error:", error);
+
+});
+
+});
+	</script>
+{% endblock %}

@@ -7279,7 +7279,7 @@ blockquote p:last-child {
   padding: 25px;
 }
 .form-check {
-  border-bottom: 5px solid;
+  /*border-bottom: 5px solid;*/
   margin: 13px;
 }
 label,

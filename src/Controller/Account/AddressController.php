@@ -1,14 +1,16 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Account;
 
 use App\Entity\Address;
 use App\Form\AddressType;
+use App\Services\CartService;
 use App\Repository\AddressRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @
@@ -16,6 +18,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AddressController extends AbstractController
 {
+    private $session;
+
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
     /**
      * @Route("/", name="address_index", methods={"GET"})
      */
@@ -29,7 +37,7 @@ class AddressController extends AbstractController
     /**
      * @Route("/new", name="address_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, CartService $cartService): Response
     {
         $address = new Address();
         $form = $this->createForm(AddressType::class, $address);
@@ -41,6 +49,9 @@ class AddressController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($address);
             $entityManager->flush();
+            if ($cartService->getFullCart()) {
+                return $this->redirectToRoute('checkout');
+            }
             $this->addFlash('addresse_message', 'Votre adresse est ajoutée avec succès !');
             return $this->redirectToRoute('account');
         }
@@ -72,6 +83,12 @@ class AddressController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('addresse_message', 'Votre adresse est modifiée avec succès !');
+            if ($this->session->get('checkoutData')) {
+                $data = $this->session->get('checkoutData');
+                $data['address'] = $address;
+                $this->session->set('checkoutData', $data);
+                return $this->redirectToRoute('checkout_confirm');
+            }
             return $this->redirectToRoute('account');
         }
 

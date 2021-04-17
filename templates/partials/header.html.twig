@@ -150,7 +150,7 @@
 											<a href="{{path('deleteAll_cart', {'id': element.product.id }) }}" class="item_remove">
 												<i class="ion-close"></i>
 											</a>
-											<a href="#"><img src="assets/upload/products/{{element.product.image}}" alt="{{element.product.name}}">{{element.product.name}}</a>
+											<a href="#"><img src="/assets/upload/products/{{element.product.image}}" alt="{{element.product.name}}">{{element.product.name}}</a>
 											<span class="cart_quantity">
 												{{element.quantity}}
 												x
@@ -171,7 +171,7 @@
 										{{ app.session.get('cartData').data.subtotalht }}</p>
 									<p class="cart_buttons">
 										<a href="{{ path('cart')}}" class="btn btn-fill-line rounded-0 view-cart">Mon panier</a>
-										<a href="" class="btn btn-fill-out rounded-0 checkout">Commander</a>
+										<a href="{{path('checkout')}}" class="btn btn-fill-out rounded-0 checkout">Commander</a>
 									</p>
 
 								</div>
