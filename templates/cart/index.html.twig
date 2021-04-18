@@ -39,9 +39,11 @@
 														-
 													</a>
 													<input type="text" name="quantity" value="{{ element.quantity }}" title="Qté" class="qty" size="4">
-													<a href="{{path('add_cart', {'id': element.product.id })}}" type="button" value="+" class="plus">
-														+
-													</a>
+													{% if element.quantity < element.product.quantity %}
+														<a href="{{path('add_cart', {'id': element.product.id })}}" type="button" value="+" class="plus">
+															+
+														</a>
+													{% endif %}
 												</div>
 											</td>
 											<td class="product-subtotal" data-title="Total">{{element.quantity * element.product.price / 100}}

@@ -5,6 +5,7 @@ namespace App\Controller\Stripe;
 use App\Repository\OrderRepository;
 use App\Services\CartService;
 use App\Services\OrderService;
+use App\Services\StockService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,13 +16,16 @@ class StripeSuccessPaymentController extends AbstractController
     /**
      * @Route("/stripe-payment-success/{CHECKOUT_SESSION_ID}/{id}", name="stripe_payment_success")
      */
-    public function index(OrderRepository $repo, EntityManagerInterface $manager, CartService $cartService, $CHECKOUT_SESSION_ID, $id): Response
+    public function index(OrderRepository $repo, EntityManagerInterface $manager, CartService $cartService, StockService $stock, $CHECKOUT_SESSION_ID, $id): Response
     {
 
         $order = $repo->findOneBy(['id' => $id]);
         if (!$order || $order->getUser() !== $this->getUser()) {
             return $this->redirectToRoute('home');
         }
+        //destockage
+        $stock->destock($order, $this->getUser());
+
         $order->setStripChekoutSessionId($CHECKOUT_SESSION_ID)
             ->setIsPaid(1);
         $manager->flush();
