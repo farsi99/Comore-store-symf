@@ -144,7 +144,7 @@ class Order
 
     public function getCarrierPrice(): ?float
     {
-        return $this->carrierPrice;
+        return $this->carrierPrice * 100;
     }
 
     public function setCarrierPrice(float $carrierPrice): self
@@ -258,7 +258,7 @@ class Order
 
     public function getSubtotalht(): ?float
     {
-        return $this->subtotalht;
+        return $this->subtotalht * 100;
     }
 
     public function setSubtotalht(float $subtotalht): self
@@ -270,7 +270,7 @@ class Order
 
     public function getTaxe(): ?float
     {
-        return $this->taxe;
+        return $this->taxe * 100;
     }
 
     public function setTaxe(float $taxe): self
@@ -282,7 +282,7 @@ class Order
 
     public function getSubtotalttc(): ?float
     {
-        return $this->subtotalttc;
+        return $this->subtotalttc * 100;
     }
 
     public function setSubtotalttc(float $subtotalttc): self
