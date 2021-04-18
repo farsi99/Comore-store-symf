@@ -1,0 +1,31 @@
+<div class="container">
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="product-name">Produit</th>
+				<th class="product-price">Prix</th>
+				<th class="product-quantity">Quantité</th>
+				<th class="product-subtotal">Total HT</th>
+				<th class="product-subtotal">TVA (20%)</th>
+				<th class="product-remove">Total TTC</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for detail in field.value %}
+				<tr>
+					<td>{{detail.productName}}</td>
+					<td>{{detail.productPrice}}
+						€</td>
+					<td>{{ detail.productQuantity}}</td>
+					<td>{{detail.subTotalht}}
+						€</td>
+					<td>{{detail.taxe}}</td>
+					<td>{{detail.subTotalttc}}
+						€</td>
+				</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+
+</div>

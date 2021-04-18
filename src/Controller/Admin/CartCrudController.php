@@ -5,9 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Cart;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CartCrudController extends AbstractCrudController
@@ -32,7 +34,15 @@ class CartCrudController extends AbstractCrudController
             MoneyField::new('subtotalht', 'Total HT')->setCurrency('EUR'),
             MoneyField::new('taxe', 'TVA (20%)')->setCurrency('EUR'),
             MoneyField::new('subtotalttc', 'Total TTC')->setCurrency('EUR'),
-            BooleanField::new('isPaid', 'Etat')
+            BooleanField::new('isPaid', 'Etat'),
+            CollectionField::new('CartDetails', 'Détail panier')
+                ->setTemplatePath('admin/detail-cart.html.twig')
+                ->onlyOnDetail()
         ];
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->add(Crud::PAGE_INDEX, 'detail');
     }
 }
