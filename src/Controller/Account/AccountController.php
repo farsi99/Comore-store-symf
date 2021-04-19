@@ -38,7 +38,7 @@ class AccountController extends AbstractController
         if (!$order || $order->getUser() !== $this->getUser()) {
             return $this->redirectToRoute('home');
         }
-        $details = $repoDetail->findBy(['orders' => $order]);
+        $details = $repoDetail->findBy(['Orders' => $order]);
 
         return $this->render('account/detail_order.html.twig', [
             'title' => 'Mon compte',

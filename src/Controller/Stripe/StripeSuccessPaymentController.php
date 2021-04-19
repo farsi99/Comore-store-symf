@@ -27,7 +27,8 @@ class StripeSuccessPaymentController extends AbstractController
         $stock->destock($order, $this->getUser());
 
         $order->setStripChekoutSessionId($CHECKOUT_SESSION_ID)
-            ->setIsPaid(1);
+            ->setIsPaid(1)
+            ->setState(1);
         $manager->flush();
 
         //On vide la panier

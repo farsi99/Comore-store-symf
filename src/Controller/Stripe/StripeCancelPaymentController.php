@@ -21,7 +21,8 @@ class StripeCancelPaymentController extends AbstractController
             return $this->redirectToRoute('home');
         }
         $order->setStripChekoutSessionId($CHECKOUT_SESSION_ID)
-            ->setIsPaid(false);
+            ->setIsPaid(false)
+            ->setState(0);
         $manager->flush();
 
         return $this->render('stripe/stripe_cancel_payment/index.html.twig', [

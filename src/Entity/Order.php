@@ -63,7 +63,7 @@ class Order
     /**
      * @ORM\OneToMany(targetEntity=OrderDetails::class, mappedBy="Orders")
      */
-    private $OrderDetails;
+    private $orderDetails;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="Orders")
@@ -96,9 +96,14 @@ class Order
      */
     private $stripChekoutSessionId;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $state;
+
     public function __construct()
     {
-        $this->OrderDetails = new ArrayCollection();
+        $this->orderDetails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,25 +212,25 @@ class Order
      */
     public function getOrderDetails(): Collection
     {
-        return $this->OrderDetails;
+        return $this->orderDetails;
     }
 
-    public function addOrderDetail(OrderDetails $OrderDetail): self
+    public function addOrderDetail(OrderDetails $orderDetail): self
     {
-        if (!$this->OrderDetails->contains($OrderDetail)) {
-            $this->OrderDetails[] = $OrderDetail;
-            $OrderDetail->setOrders($this);
+        if (!$this->orderDetails->contains($orderDetail)) {
+            $this->orderDetails[] = $orderDetail;
+            $orderDetail->setOrders($this);
         }
 
         return $this;
     }
 
-    public function removeOrderDetail(OrderDetails $OrderDetail): self
+    public function removeOrderDetail(OrderDetails $orderDetail): self
     {
-        if ($this->OrderDetails->removeElement($OrderDetail)) {
+        if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
-            if ($OrderDetail->getOrders() === $this) {
-                $OrderDetail->setOrders(null);
+            if ($orderDetail->getOrders() === $this) {
+                $orderDetail->setOrders(null);
             }
         }
 
@@ -300,6 +305,18 @@ class Order
     public function setStripChekoutSessionId(?string $stripChekoutSessionId): self
     {
         $this->stripChekoutSessionId = $stripChekoutSessionId;
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(?int $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }
