@@ -3,9 +3,10 @@
 namespace App\Controller\Cart;
 
 use App\Services\CartService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CartController extends AbstractController
 {
@@ -32,10 +33,11 @@ class CartController extends AbstractController
     /**
      * @Route("/panier/ajout/{id}", name="add_cart")
      */
-    public function addToCart($id): Response
+    public function addToCart(Request $request, $id): Response
     {
         $this->cartService->addToCart($id);
-        return $this->redirectToRoute("cart");
+        // return $this->redirectToRoute("cart");
+        return $this->redirect($request->headers->get('referer'));
     }
 
     /**

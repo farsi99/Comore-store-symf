@@ -44,18 +44,40 @@
 								</a>
 							</li>
 							<li>
-								<a href="">
-									<i class="ti-heart"></i>
+								<a href="{{path('favoris')}}">
+									<i class="ti-heart favoris"></i>
+									<span class="wishlist_count favoris_count">
+										{% if app.session.get('favoris') %}
+											{{ app.session.get('favoris') | length }}
+										{% else %}
+											0
+										{% endif %}
+
+									</span>
 									<span>Favoris</span>
 								</a>
 							</li>
 							{% if app.user %}
-								<li>
-									<a href="{{path('app_logout')}}">
+
+								<li class="dropdown count_dropdown">
+									<a class="nav-link cart_trigger" href="#" data-toggle="dropdown">
 										<i class="ti-user"></i>
-										<span>Déconnexion</span>
+										<span>Mon compte</span>
 									</a>
+									<ul class="dropdown-menu dropdown-menu-right">
+										<li>
+											<a href="">Mes informations</a>
+										</li>
+										<li>
+											<a href="">Mes commandes</a>
+										</li>
+										<li>
+											<a href="">Déconnexion</a>
+										</li>
+									</ul>
 								</li>
+
+
 							{% else %}
 								<li>
 									<a href="{{path('app_login')}}">

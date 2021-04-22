@@ -96,11 +96,24 @@ class User implements UserInterface
      */
     private $orders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Hearth::class, mappedBy="author")
+     */
+    private $hearths;
+
+
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->reviewsProducts = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->hearths = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 
     public function getNameComplet()
@@ -339,6 +352,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Hearth[]
+     */
+    public function getHearths(): Collection
+    {
+        return $this->hearths;
+    }
+
+    public function addHearth(Hearth $hearth): self
+    {
+        if (!$this->hearths->contains($hearth)) {
+            $this->hearths[] = $hearth;
+            $hearth->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHearth(Hearth $hearth): self
+    {
+        if ($this->hearths->removeElement($hearth)) {
+            // set the owning side to null (unless already changed)
+            if ($hearth->getAuthor() === $this) {
+                $hearth->setAuthor(null);
             }
         }
 

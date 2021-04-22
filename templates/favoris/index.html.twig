@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes favoris
+{% endblock %}
+
+{% block body %}
+	{{  include ("partials/title_section.html.twig", {'name':'Mes favoris'}) }}
+
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="row shop_container">
+						{% if favoris %}
+							{% for favori in favoris %}
+								{{  include ("partials/products_favoris.html.twig", {'product':favori.product}) }}
+							{% endfor %}
+						{% else %}
+							<p class="m-5">Désolé, Aucun produit ne correspond aux résultats de votre recherche!</p>
+						{% endif %}
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

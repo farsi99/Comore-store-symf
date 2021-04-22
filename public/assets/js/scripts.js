@@ -6,8 +6,10 @@
 	$(window).on('load', function() {
 		setTimeout(function () {
 			$(".preloader").delay(700).fadeOut(700).addClass('loaded');
-		}, 800);
+		}, 200);
 	});
+
+
 
 	/*===================================*
 	02. BACKGROUND IMAGE JS

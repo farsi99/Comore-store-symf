@@ -1568,11 +1568,29 @@ button:focus {
   margin-left: -5px;
   margin-right: -5px;
 }
+.favoris_count {
+  top: -8px;
+  left: -11px;
+}
 .cart_trigger .amount {
   margin-left: 8px;
   font-weight: 600;
   vertical-align: top;
   margin-right: -10px;
+}
+.navbar-nav .dropdown-menu.compte_box {
+  width: 320px;
+  position: absolute !important;
+  -webkit-transform: scale(0) !important;
+  transform: scale(0) !important;
+  -webkit-transform-origin: -webkit-calc(100% - 30px) 0;
+  transform-origin: calc(100% - 30px) 0;
+  display: block;
+  transition: all 0.25s ease-in-out;
+  padding: 0;
+  top: 100% !important;
+  left: auto !important;
+  right: 0;
 }
 .navbar-nav .dropdown-menu.cart_box {
   width: 320px;
@@ -1588,7 +1606,22 @@ button:focus {
   left: auto !important;
   right: 0;
 }
+.fa-gratipay {
+  color: #ff7200;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  text-align: right;
+  z-index: 10;
+  font-size: 25px !important;
+  background: #fff;
+  border-radius: 50%;
+}
 .navbar-nav .dropdown-menu.cart_box.show {
+  -webkit-transform: scale(1) !important;
+  transform: scale(1) !important;
+}
+.navbar-nav .dropdown-menu.compte_box.show {
   -webkit-transform: scale(1) !important;
   transform: scale(1) !important;
 }
@@ -1800,6 +1833,9 @@ button:focus {
   vertical-align: middle;
   display: inline-block;
   padding: 2px 15px 2px 0;
+}
+.favoris {
+  font-size: 20px;
 }
 .header_list > li i {
   margin-right: 6px;

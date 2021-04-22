@@ -3,13 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Carrier;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class CarrierCrudController extends AbstractCrudController
 {
@@ -18,6 +18,12 @@ class CarrierCrudController extends AbstractCrudController
         return Carrier::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setPageTitle(Crud::PAGE_INDEX, 'Transporteur')
+            ->setEntityLabelInSingular('trasponsporteur');
+    }
 
     public function configureFields(string $pageName): iterable
     {
@@ -26,7 +32,8 @@ class CarrierCrudController extends AbstractCrudController
             TextField::new('name', 'Nom du transporteur'),
             TextareaField::new('description'),
             MoneyField::new('price', 'Prix')->setCurrency('EUR'),
-            DateField::new('cretedAt', 'Date ajout')->hideOnForm(),
+            DateTimeField::new('createdAt', 'Date ajout')
+                ->hideOnForm(),
         ];
     }
 }
