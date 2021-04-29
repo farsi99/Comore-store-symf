@@ -1689,6 +1689,22 @@ button:focus {
 .dropdown-menu .cart_list li a i {
   width: auto;
 }
+
+.cpt {
+  position: absolute;
+  transform: translate3d(6px, 40px, 0px) !important;
+  top: 0px;
+  left: 0px;
+  will-change: transform;
+  border-radius: 0px;
+  padding: 15px;
+  font-size: 15px;
+  box-shadow: 1px 0 10px rgb(0 0 0 / 20%);
+}
+.dropdown-menu .cpt li {
+  margin-bottom: 6px !important;
+}
+
 .cart_total {
   color: #ffffff;
   margin: 0;

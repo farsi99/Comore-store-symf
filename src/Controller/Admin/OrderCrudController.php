@@ -39,7 +39,9 @@ class OrderCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->setDefaultSort(['id' => 'DESC']);
+        return $crud
+            ->setDefaultSort(['id' => 'DESC'])
+            ->setPageTitle(Crud::PAGE_INDEX, 'Commandes');
     }
 
     public function configureFields(string $pageName): iterable
@@ -58,7 +60,7 @@ class OrderCrudController extends AbstractCrudController
                 'Préparation en cours' => 2,
                 'Livraison en cours' => 3,
                 'Terminée' => 4
-            ]),
+            ])->setCssClass('alert alert-info'),
             CollectionField::new('orderDetails', 'Détail Commande')
                 ->setTemplatePath('admin/detail-cart.html.twig')
                 ->onlyOnDetail()
@@ -68,24 +70,36 @@ class OrderCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $updatePrepration = Action::new('updatePrepration', 'Preparation en cours', 'fas fa-box-open')->linkToCrudAction('updatePreparation');
-        $updateDelivry = Action::new('updateDelivry', 'Livraison en cours', 'fas fa-truck')->linkToCrudAction('updateDelivry');
+        $updatePrepration = Action::new('updatePrepration', 'Preparation en cours', 'fas fa-box-open')
+            ->linkToCrudAction('updatePreparation')
+            ->setCssClass('btn btn-info');
+        $updateDelivry = Action::new('updateDelivry', 'Livraison en cours', 'fas fa-truck')
+            ->linkToCrudAction('updateDelivry')
+            ->setCssClass('btn btn-success');
 
         return $actions
             ->add('detail', $updatePrepration)
             ->add('detail', $updateDelivry)
             ->add(Crud::PAGE_INDEX, 'detail')
-            ->update(Crud::PAGE_INDEX, Action::NEW, function (Action $action) {
+            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
                 return $action
-                    ->setIcon('fa fa-shopping-bag')
-                    ->setLabel('Créer une commande');
+                    ->setIcon('fa fa-eye')
+                    ->setLabel('')
+                    ->setCssClass('btn btn-info');
             })
             ->update(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
                 return $action
                     ->setIcon('fas fa-edit')
-                    ->setLabel('Modifier')
+                    ->setLabel('')
                     ->setCssClass('btn btn-success');
-            });
+            })
+            ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
+                return $action
+                    ->setIcon('fas fa-trash')
+                    ->setLabel('')
+                    ->setCssClass('btn btn-danger');
+            })
+            ->disable(Action::NEW);
     }
 
     public function updatePreparation(AdminContext $context)
