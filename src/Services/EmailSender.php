@@ -40,6 +40,6 @@ class EmailSender
             ]
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success() && dd($response->getData());
+        // $response->success() && dd($response->getData());
     }
 }

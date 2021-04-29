@@ -1,16 +1,29 @@
 <div class="item">
 	<div class="product">
+		{% if product.quantity < 0 %}
+			<span class="epuise">Epuisé</span>
+		{% endif %}
 		<div class="product_img">
 			<a href="{{path('product_detail',{'slug': product.slug})}}">
 				<img src="/assets/upload/products/{{product.image}}" alt="{{product.name}}" height="254">
 			</a>
 			<div class="product_action_box">
 				<ul class="list_none pr_action_btn">
-					<li class="add-to-cart">
-						<a href="{{path('add_cart', {'id': product.id })}}">
-							<i class="icon-basket-loaded"></i>
-							{{product.name}}</a>
-					</li>
+					{% if product.quantity <= 0 %}
+						<li>
+							<a href="{{path('alert_product',{'id':product.id})}}" class="" title="être avertie quand ça sera disponible">
+								<i class="icon-bell"></i>
+							</a>
+						</li>
+					{% endif %}
+					{% if product.quantity > 0 %}
+						<li class="add-to-cart">
+							<a href="{{path('add_cart', {'id': product.id })}}">
+								<i class="icon-basket-loaded"></i>
+								Ajouter au panier</a>
+						</li>
+					{% endif %}
+
 					<li>
 						<a href="">
 							<i class="icon-shuffle"></i>

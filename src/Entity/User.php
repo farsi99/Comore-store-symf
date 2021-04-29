@@ -101,6 +101,16 @@ class User implements UserInterface
      */
     private $hearths;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="author")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Alert::class, mappedBy="User")
+     */
+    private $alerts;
+
 
 
     public function __construct()
@@ -109,6 +119,8 @@ class User implements UserInterface
         $this->reviewsProducts = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->hearths = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->alerts = new ArrayCollection();
     }
 
     public function __toString()
@@ -382,6 +394,66 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($hearth->getAuthor() === $this) {
                 $hearth->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Alert[]
+     */
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    public function addAlert(Alert $alert): self
+    {
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts[] = $alert;
+            $alert->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlert(Alert $alert): self
+    {
+        if ($this->alerts->removeElement($alert)) {
+            // set the owning side to null (unless already changed)
+            if ($alert->getUser() === $this) {
+                $alert->setUser(null);
             }
         }
 

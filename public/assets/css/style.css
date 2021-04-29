@@ -170,6 +170,9 @@ button:focus {
   position: relative;
   overflow: hidden;
   z-index: 1;
+  border-radius: 30px;
+  border: none !important;
+  outline: none;
 }
 .voir {
   padding: 5px 12px !important;
@@ -196,7 +199,8 @@ button:focus {
   width: 0;
 }
 .btn-fill-out:hover {
-  color: #ff7200 !important;
+  color: #000 !important;
+  border: 1px solid #ff7200;
 }
 .btn-fill-line {
   background-color: transparent;
@@ -1616,6 +1620,19 @@ button:focus {
   font-size: 25px !important;
   background: #fff;
   border-radius: 50%;
+}
+.epuise {
+  color: #fff;
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  padding: 2px;
+  text-align: right;
+  z-index: 10;
+  font-size: 12px !important;
+  background: #fff;
+  border-radius: 4%;
+  background: red;
 }
 .navbar-nav .dropdown-menu.cart_box.show {
   -webkit-transform: scale(1) !important;

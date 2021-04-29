@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Alert;
 use App\Entity\Product;
 use App\Entity\SearchProduct;
 use App\Form\SearchProductType;
 use App\Repository\ProductRepository;
 use App\Repository\HomeSliderRepository;
 use App\Services\HearthService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class HomeController extends AbstractController
 {
@@ -76,5 +79,25 @@ class HomeController extends AbstractController
             'products' => $products,
             'search' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/alert-produit/{id}", name="alert_product")
+     * @IsGranted("ROLE_USER")
+     */
+    public function alertUser(Product $product, EntityManagerInterface $manager, Request $request)
+    {
+        $alert = new Alert();
+        $user = $this->getUser();
+        if ($product) {
+            $alert->setProduct($product)
+                ->setUser($user);
+            $manager->persist($alert);
+            $manager->flush();
+            if (strpos($request->headers->get('referer'), 'connexion')) {
+                return $this->redirectToRoute('home');
+            }
+            return $this->redirect($request->headers->get('referer'));
+        }
     }
 }

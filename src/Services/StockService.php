@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Entity\Order;
 use App\Repository\CartRepository;
-use App\Repository\OrderDetailsRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -14,14 +13,12 @@ class StockService
     private $manager;
     private $productRepo;
     private $cartRepo;
-    private $detailRepo;
 
-    public function __construct(EntityManagerInterface $manager, ProductRepository $productRepo, OrderDetailsRepository $detailRepo, CartRepository $cartRepo)
+    public function __construct(EntityManagerInterface $manager, ProductRepository $productRepo, CartRepository $cartRepo)
     {
         $this->manager = $manager;
         $this->productRepo = $productRepo;
         $this->cartRepo = $cartRepo;
-        $this->detailRepo = $detailRepo;
     }
 
     /**
@@ -30,8 +27,8 @@ class StockService
     public function destock(Order $order, $user)
     {
 
-        $orderDetails = $this->detailRepo->findByOrders($order);
-        // $orderDetails = $order->getOrderDetails()->getValues();
+        //$orderDetails = $this->detailRepo->findByOrders($order);
+        $orderDetails = $order->getOrderDetails()->getValues();
         foreach ($orderDetails as  $detail) {
             $product = $this->productRepo->findByName($detail->getProductName())[0];
             $newQuantity = $product->getQuantity() - $detail->getProductQuantity();
