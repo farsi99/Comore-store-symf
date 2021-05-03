@@ -1698,11 +1698,14 @@ button:focus {
   will-change: transform;
   border-radius: 0px;
   padding: 15px;
-  font-size: 15px;
+  font-size: 12px;
   box-shadow: 1px 0 10px rgb(0 0 0 / 20%);
 }
-.dropdown-menu .cpt li {
+.cpt li {
   margin-bottom: 6px !important;
+}
+.cpt li a .fas {
+  color: #ff7200;
 }
 
 .cart_total {

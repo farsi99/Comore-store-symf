@@ -84,6 +84,9 @@ class OrderCrudController extends AbstractCrudController
             ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
                 return $action
                     ->setIcon('fa fa-eye')
+                    ->setHtmlAttributes([
+                        'title' => 'voir'
+                    ])
                     ->setLabel('')
                     ->setCssClass('btn btn-info');
             })

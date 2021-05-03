@@ -111,6 +111,16 @@ class User implements UserInterface
      */
     private $alerts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Blog::class, mappedBy="user")
+     */
+    private $blogs;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $civilite;
+
 
 
     public function __construct()
@@ -121,6 +131,7 @@ class User implements UserInterface
         $this->hearths = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->alerts = new ArrayCollection();
+        $this->blogs = new ArrayCollection();
     }
 
     public function __toString()
@@ -271,13 +282,13 @@ class User implements UserInterface
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      * 
      * @return void
      */
     public function initDate()
     {
         $this->createdAt = new \DateTime();
+        $this->username = $this->lastname;
     }
 
     /**
@@ -456,6 +467,48 @@ class User implements UserInterface
                 $alert->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Blog[]
+     */
+    public function getBlogs(): Collection
+    {
+        return $this->blogs;
+    }
+
+    public function addBlog(Blog $blog): self
+    {
+        if (!$this->blogs->contains($blog)) {
+            $this->blogs[] = $blog;
+            $blog->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlog(Blog $blog): self
+    {
+        if ($this->blogs->removeElement($blog)) {
+            // set the owning side to null (unless already changed)
+            if ($blog->getUser() === $this) {
+                $blog->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCivilite(): ?string
+    {
+        return $this->civilite;
+    }
+
+    public function setCivilite(?string $civilite): self
+    {
+        $this->civilite = $civilite;
 
         return $this;
     }

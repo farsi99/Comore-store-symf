@@ -6,25 +6,26 @@ use App\Entity\Alert;
 use App\Entity\Product;
 use App\Entity\SearchProduct;
 use App\Form\SearchProductType;
+use App\Services\HearthService;
 use App\Repository\ProductRepository;
 use App\Repository\HomeSliderRepository;
-use App\Services\HearthService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+
+
     /**
      * @Route("/", name="home")
      */
     public function index(ProductRepository $repo, HomeSliderRepository $repoSlider, Session $session, HearthService $favois): Response
     {
-
         $user = !empty($this->getUser()) ? $this->getUser() : null;
         if (!empty($user)) {
             if (!$session->has('favoris')) {
@@ -44,7 +45,7 @@ class HomeController extends AbstractController
             'productIsFeatured' => $productIsFeatured,
             'productisSepecialOffer' => $productisSepecialOffer,
             'productisNewArrival' => $productisNewArrival,
-            'homeslider' => $homeslider
+            'homeslider' => $homeslider,
         ]);
     }
 
